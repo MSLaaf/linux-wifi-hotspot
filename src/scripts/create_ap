@@ -49,6 +49,7 @@ usage() {
     echo "  --isolate-clients       Disable communication between clients"
     echo "  --ieee80211n            Enable IEEE 802.11n (HT)"
     echo "  --ieee80211ac           Enable IEEE 802.11ac (VHT)"
+    echo "  --ieee80211ax           Enable IEEE 802.11ax"
     echo "  --ht_capab <HT>         HT capabilities (default: [HT40+])"
     echo "  --vht_capab <VHT>       VHT capabilities"
     echo "  --country <code>        Set two-letter country code for regularity (example: US)"
@@ -640,6 +641,7 @@ ISOLATE_CLIENTS=0
 SHARE_METHOD=nat
 IEEE80211N=0
 IEEE80211AC=0
+IEEE80211AX=0
 HT_CAPAB='[HT40+]'
 VHT_CAPAB=
 DRIVER=nl80211
@@ -1129,6 +1131,10 @@ while :; do
             shift
             IEEE80211AC=1
             ;;
+	--ieee80211ax)
+            shift
+	    IEEE80211AX=1
+	    ;;
         --ht_capab)
             shift
             HT_CAPAB="$1"
@@ -1691,6 +1697,10 @@ fi
 
 if [[ $IEEE80211AC -eq 1 ]]; then
     echo "ieee80211ac=1" >> $CONFDIR/hostapd.conf
+fi
+
+if [[ $IEEE80211AX -eq 1 ]]; then
+    echo "ieee80211ax=1" >> $CONFDIR/hostapd.conf
 fi
 
 if [[ -n "$VHT_CAPAB" ]]; then
